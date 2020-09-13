@@ -9,13 +9,14 @@ args = parser.parse_args()
 dir_name = args.dir_name
 model = args.model
 
+
 class Code:
     ABC = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     punctuation = ',.!?: '
-    my_dict = {}
+    my_dict = dict()
     my_dict['конец предложения'] = []
     my_dict['начало предложения'] = []
-    
+
     def fit(dir_name, model):
         folder = os.listdir(dir_name)
         for file in folder:
@@ -24,16 +25,14 @@ class Code:
                 for line in inf:
                     line = line.strip()
                     line = line.lower()
-                    line +=' '
+                    line += ' '
                     word = ''
                     begin = 1
                     previous_word = ''
                     for symbol in line:
                         if symbol in Code.ABC:
-                            word+=symbol
-                            #print(symbol, end='')
+                            word += symbol
                         elif symbol in Code.punctuation and not word == '':
-                            #print(word)
                             if begin == 1:
                                 Code.my_dict['начало предложения'].append(word)
                             begin = 0
@@ -44,9 +43,9 @@ class Code:
                                     Code.my_dict[previous_word] = [word]
                             previous_word = word
                             word = ''
-                            if symbol == '.' and len(previous_word)>3:
+                            if symbol == '.' and len(previous_word) > 3:
                                 Code.my_dict['конец предложения'].append(previous_word)
-                                begin=1
+                                begin = 1
                             if not symbol == ' ':
                                 previous_word = '' 
                         else:
@@ -59,7 +58,5 @@ class Code:
     def print():
         print(Code.my_dict)
 
-Code.fit(dir_name, model)      
-        
-        
-    
+
+Code.fit(dir_name, model)

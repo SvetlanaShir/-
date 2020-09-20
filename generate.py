@@ -14,6 +14,7 @@ if seed == None:
     seed = 'случайное слово'
 
 
+
 class Code:
     def generate(model, length, seed):
         with open(model, 'rb') as f:
@@ -23,19 +24,25 @@ class Code:
                 word = random.choice(dict_new['начало предложения'])
             else:
                 word = seed.lower()
-            print(word[0].upper(), end='')
-            for k in range(len(word) - 1):
-                print(word[k+1], end='')
-            sentence_length = random.randint(3, 12)
+            print(word[0].upper() + word[1:], end='')
+                
+            sentence_length = random.randint(3, 10)
             for i in range(20):
                 if word in dict_new:
                     word = random.choice(dict_new[word])
                     if i > sentence_length and word in dict_new['конец предложения']:
-                        print('', word, end='. ')
+                        if word in dict_new['слова с большой буквы']:
+                            print('', word[0].upper() + word[1:], end='. ')
+                        else:
+                            print('', word, end='. ')
                         seed = 'случайное слово'
                         break
                     else:
-                        print('', word, end='')
+                        if word in dict_new['слова с большой буквы']:
+                            word = word[0] + word[1:]
+                            print('', word[0].upper() + word[1:], end='')
+                        else:
+                            print('', word, end='')
                 else: 
                     print('. ', end='')
                     seed = 'случайное слово'
